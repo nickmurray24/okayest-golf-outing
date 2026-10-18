@@ -1,0 +1,890 @@
+{
+  "version": 3,
+  "config": {
+    "name": "The Okayest Golf Outing Ever",
+    "estimatedGolfers": 17,
+    "teams": [
+      {
+        "id": "black",
+        "name": "Team Black"
+      },
+      {
+        "id": "white",
+        "name": "Team White"
+      }
+    ],
+    "rounds": [
+      {
+        "id": "singles",
+        "number": 1,
+        "name": "Singles",
+        "shortName": "Singles",
+        "format": "1 vs 1 \u00b7 Match Play",
+        "matchCount": 8,
+        "pointsPerMatch": 1,
+        "holeStart": 1,
+        "holeEnd": 9,
+        "summary": "Every golfer plays their own ball. The lowest score takes the hole."
+      },
+      {
+        "id": "alternate-shot",
+        "number": 2,
+        "name": "Alternate Shot",
+        "shortName": "Alt. Shot",
+        "format": "2 vs 2 \u00b7 Match Play",
+        "matchCount": 4,
+        "pointsPerMatch": 1,
+        "holeStart": 10,
+        "holeEnd": 18,
+        "summary": "Partners alternate tee shots by odd/even holes, then alternate strokes."
+      },
+      {
+        "id": "scramble",
+        "number": 3,
+        "name": "2 vs 2 Scramble",
+        "shortName": "Scramble",
+        "format": "2 vs 2 \u00b7 Match Play",
+        "matchCount": 4,
+        "pointsPerMatch": 1,
+        "holeStart": 1,
+        "holeEnd": 9,
+        "summary": "Both partners hit; the team chooses which ball to play next."
+      }
+    ]
+  },
+  "players": [],
+  "matches": [
+    {
+      "id": "singles-1",
+      "roundId": "singles",
+      "number": 1,
+      "black": [
+        ""
+      ],
+      "white": [
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "singles-2",
+      "roundId": "singles",
+      "number": 2,
+      "black": [
+        ""
+      ],
+      "white": [
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "singles-3",
+      "roundId": "singles",
+      "number": 3,
+      "black": [
+        ""
+      ],
+      "white": [
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "singles-4",
+      "roundId": "singles",
+      "number": 4,
+      "black": [
+        ""
+      ],
+      "white": [
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "singles-5",
+      "roundId": "singles",
+      "number": 5,
+      "black": [
+        ""
+      ],
+      "white": [
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "singles-6",
+      "roundId": "singles",
+      "number": 6,
+      "black": [
+        ""
+      ],
+      "white": [
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "singles-7",
+      "roundId": "singles",
+      "number": 7,
+      "black": [
+        ""
+      ],
+      "white": [
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "singles-8",
+      "roundId": "singles",
+      "number": 8,
+      "black": [
+        ""
+      ],
+      "white": [
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "alternate-shot-1",
+      "roundId": "alternate-shot",
+      "number": 1,
+      "black": [
+        "",
+        ""
+      ],
+      "white": [
+        "",
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "alternate-shot-2",
+      "roundId": "alternate-shot",
+      "number": 2,
+      "black": [
+        "",
+        ""
+      ],
+      "white": [
+        "",
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "alternate-shot-3",
+      "roundId": "alternate-shot",
+      "number": 3,
+      "black": [
+        "",
+        ""
+      ],
+      "white": [
+        "",
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "alternate-shot-4",
+      "roundId": "alternate-shot",
+      "number": 4,
+      "black": [
+        "",
+        ""
+      ],
+      "white": [
+        "",
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "scramble-1",
+      "roundId": "scramble",
+      "number": 1,
+      "black": [
+        "",
+        ""
+      ],
+      "white": [
+        "",
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "scramble-2",
+      "roundId": "scramble",
+      "number": 2,
+      "black": [
+        "",
+        ""
+      ],
+      "white": [
+        "",
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "scramble-3",
+      "roundId": "scramble",
+      "number": 3,
+      "black": [
+        "",
+        ""
+      ],
+      "white": [
+        "",
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    },
+    {
+      "id": "scramble-4",
+      "roundId": "scramble",
+      "number": 4,
+      "black": [
+        "",
+        ""
+      ],
+      "white": [
+        "",
+        ""
+      ],
+      "holes": [
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        },
+        {
+          "black": null,
+          "white": null
+        }
+      ],
+      "finalized": false,
+      "revision": 0
+    }
+  ]
+}

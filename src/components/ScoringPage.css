@@ -1,0 +1,78 @@
+/* Phase 3: designed around one-handed score entry on a phone. */
+.scoring-local-banner { margin:0 0 18px; display:flex; align-items:center; gap:8px; background:#eff3e9; border:1px solid #dce8db; padding:12px 13px; border-radius:12px; color:#466851; font-weight:700; font-size:12px; line-height:1.5; }
+.scoring-local-banner span { color:#589665; font-size:16px; }
+.scoring-match-grid { display:grid; gap:12px; }
+.scoring-match-tile { min-width:0; background:#fff; border:1px solid #e2e9df; border-radius:16px; padding:15px; box-shadow:0 3px 10px rgba(16,60,44,.025); }
+.scoring-match-tile__header { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.scoring-match-tile__header>strong { font-size:10px; letter-spacing:.11em; color:#a78e6d; }
+.scoring-badge { border-radius:99px; padding:6px 9px; font-size:10px; font-weight:850; white-space:nowrap; line-height:1; }
+.scoring-badge--setup { background:#f7f2e9; color:#947c61; }
+.scoring-badge--ready { background:#edf2e9; color:#4f7658; }
+.scoring-badge--playing { background:#f1e8d7; color:#9b733f; }
+.scoring-badge--decided { background:#e9efe7; color:#22583f; }
+.scoring-badge--official { background:#204d37; color:#fff; }
+.scoring-match-tile__sides { display:grid; gap:12px; margin:19px 0 16px; }
+.scoring-side { display:flex; gap:9px; align-items:flex-start; min-width:0; }
+.scoring-side__dot { width:13px; height:13px; border-radius:50%; flex:none; margin-top:4px; border:1px solid #aab5aa; }
+.scoring-side__dot--black { background:#192b21; border-color:#192b21; }
+.scoring-side__dot--white { background:#fff; }
+.scoring-side>div { display:flex; flex-direction:column; gap:3px; min-width:0; }
+.scoring-side>div>span { font-size:10px; font-weight:900; color:#819489; letter-spacing:.04em; }
+.scoring-side>div>strong { font-size:14px; font-weight:750; overflow-wrap:anywhere; }
+.scoring-match-tile__bottom { display:flex; justify-content:space-between; align-items:center; gap:11px; padding-top:13px; border-top:1px solid #edf0e9; }
+.scoring-match-tile__bottom>div { display:flex; flex-direction:column; gap:5px; min-width:0; }
+.scoring-match-tile__bottom>div strong { font-size:13px; color:#24553d; }
+.scoring-match-tile__bottom>div span { font-size:10px; line-height:1.35; color:#84998a; }
+.scoring-open { min-height:44px; min-width:111px; padding:8px 11px; background:#173f2d; border:0; color:white; border-radius:10px; font-size:11px; font-weight:850; white-space:nowrap; cursor:pointer; }
+.scoring-open:disabled { background:#e7ece5; color:#91a092; cursor:not-allowed; }
+.scoring-open span { font-size:16px; margin-left:3px; }
+.scoring-match-tile__hint { color:#9a917e; font-size:11px; line-height:1.45; margin:11px 0 0; }
+.scoring-back { border:0; background:transparent; color:#315f44; font-size:12px; font-weight:850; padding:7px 0; min-height:38px; cursor:pointer; }
+.scoring-detail-intro { margin-top:8px; }
+.scoring-live-card { background:linear-gradient(130deg,#123e2a,#265d42); border-radius:17px; color:#fff; padding:19px 17px; }
+.scoring-live-card__top { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.scoring-live-card__top>span:first-child { letter-spacing:.12em; color:#bfd3c3; font-size:10px; font-weight:850; }
+.scoring-live-card__lead { display:flex; flex-direction:column; gap:3px; padding:17px 0 18px; }
+.scoring-live-card__lead strong { font-family:'Outfit',sans-serif; font-size:clamp(29px,8vw,42px); font-weight:850; letter-spacing:-.04em; line-height:1.05; }
+.scoring-live-card__lead span { color:#e2caa5; font-size:14px; font-weight:700; }
+.scoring-live-card__foot { border-top:1px solid rgba(255,255,255,.17); padding-top:12px; display:flex; gap:8px; justify-content:space-between; }
+.scoring-live-card__foot span { max-width:49%; font-size:10px; color:#cbdacb; line-height:1.45; }
+.scoring-live-card__foot span:last-child { text-align:right; }
+.scoring-player-key { display:grid; gap:10px; grid-template-columns:repeat(2,minmax(0,1fr)); margin:13px 0 23px; }
+.scoring-player-key__side { min-width:0; display:flex; align-items:flex-start; gap:7px; background:#fff; border:1px solid #e6ebdf; padding:12px 9px; border-radius:12px; }
+.scoring-player-key__side>span:last-child { min-width:0; display:flex; flex-direction:column; gap:3px; }
+.scoring-player-key__side strong { font-size:11px; overflow-wrap:anywhere; }
+.scoring-player-key__side small { color:#7a8e7f; font-size:10px; line-height:1.4; overflow-wrap:anywhere; }
+.scoring-holes-heading { display:flex; justify-content:space-between; align-items:center; gap:10px; margin:0 0 12px; }
+.scoring-holes-heading h2 { margin:0; font-size:21px; }
+.scoring-holes-heading span { color:#849786; font-size:11px; font-weight:800; }
+.scoring-hole-list { display:grid; gap:8px; }
+.scoring-hole { display:grid; grid-template-columns:51px minmax(0,1fr) minmax(0,1fr); gap:9px; align-items:start; padding:12px 10px 9px; border-radius:14px; background:#fff; border:1px solid #e2e8dc; min-width:0; }
+.scoring-hole--counted { border-color:#c6dcca; background:#fcfefb; }
+.scoring-hole--unneeded { background:#f4f5ef; opacity:.65; }
+.scoring-hole__number { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; padding-top:16px; }
+.scoring-hole__number span { font-size:9px; font-weight:850; letter-spacing:.07em; color:#93a39a; }
+.scoring-hole__number strong { font-family:'Outfit',sans-serif; color:#204a34; font-size:25px; line-height:1; }
+.scoring-hole__entry { display:flex; min-width:0; flex-direction:column; gap:5px; }
+.scoring-hole__side { color:#738779; font-weight:900; font-size:10px; letter-spacing:.08em; text-align:center; }
+.scoring-hole__entry input { appearance:textfield; -moz-appearance:textfield; min-width:0; width:100%; height:52px; border:1px solid #dce5d7; border-radius:10px; background:#f6f8f2; color:#173d2a; font-size:23px; font-family:'Outfit',sans-serif; font-weight:850; text-align:center; padding:0 5px; }
+.scoring-hole__entry input::-webkit-outer-spin-button,.scoring-hole__entry input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+.scoring-hole__entry input:focus { outline:3px solid #b9d6b5; border-color:#6e9e70; }
+.scoring-hole__entry input:disabled { color:#829185; background:#eef0e9; }
+.scoring-hole__result { grid-column:1/-1; text-align:center; font-size:10px; min-height:16px; line-height:1.6; color:#9aab9b; font-weight:800; }
+.scoring-hole__win { color:#336749; }
+.scoring-hole__win--white { color:#6f765e; }
+.scoring-explainer { padding:14px; margin:16px 0; border-radius:12px; font-size:12px; line-height:1.55; background:#edf2e9; color:#5c735e; }
+.scoring-feedback { padding:12px 13px; margin-bottom:13px; border-radius:10px; line-height:1.5; font-size:12px; font-weight:750; }
+.scoring-feedback--error { background:#fff0ea; color:#953e30; }
+.scoring-feedback--success { background:#e8f3e6; color:#316b43; }
+.scoring-finish-panel { background:#fff; border:1px solid #dfe6dc; border-radius:16px; margin-top:19px; padding:18px; display:flex; flex-direction:column; gap:13px; }
+.scoring-finish-panel strong { font-size:17px; }
+.scoring-finish-panel p { font-size:12px; color:#788b7a; line-height:1.5; margin:6px 0 0; }
+.button--forest { background:#184831; color:#fff; }
+.button:disabled { opacity:.45; cursor:not-allowed; }
+.scoring-finish-panel__main { width:100%; min-height:49px; }
+.scoring-clear { align-self:center; border:0; background:transparent; color:#996755; text-decoration:underline; padding:7px; font-size:11px; font-weight:800; cursor:pointer; }
+@media (min-width:640px) { .scoring-match-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .scoring-page--detail { max-width:680px; } .scoring-hole { grid-template-columns:70px minmax(0,1fr) minmax(0,1fr); gap:16px; padding:13px 20px 10px; } .scoring-hole__entry input { height:57px; } }
+
+.scoring-permission{background:#f2efe4;border:1px solid #d9c9a7;padding:16px 18px;border-radius:12px;margin:13px 0 20px}.scoring-permission strong{color:#174734;font-size:15px}.scoring-permission p{color:#53675c;font-size:14px;margin:6px 0 10px}.scoring-permission .button{min-height:44px}
