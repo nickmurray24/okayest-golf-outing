@@ -76,3 +76,7 @@
 @media (min-width:640px) { .scoring-match-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .scoring-page--detail { max-width:680px; } .scoring-hole { grid-template-columns:70px minmax(0,1fr) minmax(0,1fr); gap:16px; padding:13px 20px 10px; } .scoring-hole__entry input { height:57px; } }
 
 .scoring-permission{background:#f2efe4;border:1px solid #d9c9a7;padding:16px 18px;border-radius:12px;margin:13px 0 20px}.scoring-permission strong{color:#174734;font-size:15px}.scoring-permission p{color:#53675c;font-size:14px;margin:6px 0 10px}.scoring-permission .button{min-height:44px}
+
+/* Make the leading team unmistakable on match tiles. */
+.scoring-match-tile__bottom>div span.scoring-match-leader { color:#276444; font-size:12px; font-weight:900; line-height:1.4; }
+.scoring-match-tile__bottom>div span.scoring-match-leader--white { color:#596a5d; }

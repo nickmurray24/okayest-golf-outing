@@ -98,16 +98,33 @@ export function reopenMatch(match) {
 export function getStandings(outing) {
   const points = { black: 0, white: 0 };
   const byRound = {};
+  // Projection is separate from official scores. Unstarted matches contribute nothing.
+  const projectedPoints = { black: 0, white: 0 };
+  let projectedMatches = 0;
   let finalizedMatches = 0;
   let decidedMatches = 0;
   let startedMatches = 0;
 
   for (const round of outing.config.rounds) {
-    const result = { black: 0, white: 0, finalized: 0, decided: 0, started: 0, available: round.matchCount * round.pointsPerMatch };
+    const result = { black: 0, white: 0, projectedBlack: 0, projectedWhite: 0,
+      projected: 0, finalized: 0, decided: 0, started: 0, available: round.matchCount * round.pointsPerMatch };
     outing.matches.filter((match) => match.roundId === round.id).forEach((match) => {
       const progress = getMatchProgress(match);
       if (progress.started) { startedMatches += 1; result.started += 1; }
       if (progress.decided) { decidedMatches += 1; result.decided += 1; }
+      // A started match projects a full win for its current leader, or a split
+      // if all completed holes are tied. A partial hole cannot affect projection.
+      if (progress.finalized || progress.through > 0) {
+        const side = progress.finalized ? progress.winner : progress.leading;
+        const value = round.pointsPerMatch;
+        const projectedBlack = side === 'black' ? value : side === null ? value / 2 : 0;
+        projectedPoints.black += projectedBlack;
+        projectedPoints.white += value - projectedBlack;
+        result.projectedBlack += projectedBlack;
+        result.projectedWhite += value - projectedBlack;
+        result.projected += 1;
+        projectedMatches += 1;
+      }
       if (!progress.finalized) return;
       finalizedMatches += 1;
       result.finalized += 1;
@@ -126,5 +143,8 @@ export function getStandings(outing) {
   const awarded = points.black + points.white;
   const isComplete = finalizedMatches === outing.matches.length;
   return { points, byRound, finalizedMatches, decidedMatches, startedMatches, totalMatches: outing.matches.length,
-    totalAvailable, awarded, remaining: Math.max(0, totalAvailable - awarded), winner, isComplete, isTie: isComplete && !winner };
+    totalAvailable, awarded, remaining: Math.max(0, totalAvailable - awarded), winner, isComplete, isTie: isComplete && !winner,
+    projected: { points: projectedPoints, includedMatches: projectedMatches,
+      uncountedMatches: outing.matches.length - projectedMatches,
+      total: projectedPoints.black + projectedPoints.white } };
 }

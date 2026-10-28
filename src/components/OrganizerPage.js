@@ -11,7 +11,7 @@ function Metric({ value, label }) {
 const teamName = (outing, id) => outing.config.teams.find((team) => team.id === id)?.name || id;
 const idForPlayer = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `golfer-${Date.now()}-${Math.random().toString(36).slice(2)}`);
 
-export default function OrganizerPage({ outing, setOuting, onSaveOuting, cloudEnabled, session, onSetPlayerPin, onReadPinStatuses }) {
+export default function OrganizerPage({ outing, setOuting, onSaveOuting, cloudEnabled, session, onSetSharedPin, onReadSharedPinStatus }) {
   const [tab, setTab] = useState('golfers');
   const [roundId, setRoundId] = useState('singles');
   const [addName, setAddName] = useState('');
@@ -20,8 +20,7 @@ export default function OrganizerPage({ outing, setOuting, onSaveOuting, cloudEn
   const [editName, setEditName] = useState('');
   const [editTeam, setEditTeam] = useState('');
   const [message, setMessage] = useState(null);
-  const [pinStatuses, setPinStatuses] = useState([]);
-  const [pinGolferId, setPinGolferId] = useState('');
+  const [sharedPinReady, setSharedPinReady] = useState(false);
   const [newGolferPin, setNewGolferPin] = useState('');
   const [pinBusy, setPinBusy] = useState(false);
   const [draftRounds, setDraftRounds] = useState(null);
@@ -44,21 +43,20 @@ export default function OrganizerPage({ outing, setOuting, onSaveOuting, cloudEn
   useEffect(() => {
     if (!cloudEnabled || session?.role !== 'organizer') return;
     let cancelled = false;
-    onReadPinStatuses().then((ids) => { if (!cancelled) setPinStatuses(Array.isArray(ids) ? ids : []); })
+    onReadSharedPinStatus().then((result) => { if (!cancelled) setSharedPinReady(Boolean(result?.configured)); })
       .catch((error) => { if (!cancelled) flash(error.message, 'error'); });
     return () => { cancelled = true; };
   }, [cloudEnabled, session?.token, outing.players.length]);
 
   async function applyPin(event) {
     event.preventDefault();
-    if (!/^\d{6,12}$/.test(newGolferPin)) return flash('Use a 6–12 digit golfer PIN.', 'error');
-    if (!pinGolferId) return flash('Select a golfer first.', 'error');
+    if (!/^\d{4}$/.test(newGolferPin)) return flash('Use exactly four digits for the shared golfer PIN.', 'error');
     setPinBusy(true);
     try {
-      await onSetPlayerPin(pinGolferId, newGolferPin);
-      setPinStatuses((previous) => Array.from(new Set([...previous, pinGolferId])));
+      await onSetSharedPin(newGolferPin);
+      setSharedPinReady(true);
       setNewGolferPin('');
-      flash('Golfer PIN saved. Any earlier sign-in for that golfer was revoked.');
+      flash('Shared golfer PIN saved. All golfer sessions were signed out; the organizer session is unchanged.');
     } catch (error) { flash(error.message, 'error'); }
     finally { setPinBusy(false); }
   }
@@ -70,7 +68,7 @@ export default function OrganizerPage({ outing, setOuting, onSaveOuting, cloudEn
     if (name.length > 70) return flash('Names must be 70 characters or less.', 'error');
     if (outing.players.some((player) => player.name.toLowerCase() === name.toLowerCase())) return flash('A golfer with that name is already on the roster.', 'error');
     if (await save((previous) => ({ ...previous, players: [...previous.players, { id: idForPlayer(), name, teamId: addTeam }] }))) {
-      setAddName(''); flash(`${name} added. ${cloudEnabled ? 'Set a personal PIN below for this golfer.' : ''}`);
+      setAddName(''); flash(`${name} added. ${cloudEnabled ? 'They can sign in with the shared golfer PIN.' : ''}`);
     }
   }
 
@@ -190,7 +188,7 @@ export default function OrganizerPage({ outing, setOuting, onSaveOuting, cloudEn
   return (
     <div className="page inner-page organizer-page">
       <div className="page-intro"><p className="eyebrow">THE TOURNAMENT DESK</p><h1>Organizer<span className="title-period">.</span></h1><p>Build your roster, assign matchups, and set the points on the line. Started matches are protected from lineup changes.</p></div>
-      <div className="organizer-local-warning" role="note"><strong>{cloudEnabled ? 'Organizer · Shared setup' : 'Local setup preview'}</strong><p>{cloudEnabled ? 'Roster, matchups and format changes now save to Supabase for every golfer. Set each golfer’s personal PIN before they sign in. Only organizers can change these settings.' : 'Changes are saved in this browser only. To enable secure shared scoring, follow PHASE_4_SETUP.md and connect Supabase.'}</p></div>
+      <div className="organizer-local-warning" role="note"><strong>{cloudEnabled ? 'Organizer · Shared setup' : 'Local setup preview'}</strong><p>{cloudEnabled ? 'Roster, matchups and format changes now save to Supabase for every golfer. Set one shared four-digit golfer PIN before they sign in. Only organizers can change these settings.' : 'Changes are saved in this browser only. To enable secure shared scoring, follow PHASE_4_SETUP.md and connect Supabase.'}</p></div>
       <div className="organizer-metrics">
         <Metric value={outing.players.length} label="Golfers added" />
         <Metric value={`${readyMatches}/${outing.matches.length}`} label="Matches ready" />
@@ -210,14 +208,14 @@ export default function OrganizerPage({ outing, setOuting, onSaveOuting, cloudEn
         </form>
         <div className="organizer-count-strip"><span>{teamName(outing, 'black')}: <b>{counts.black}</b></span><span>{teamName(outing, 'white')}: <b>{counts.white}</b></span><span>Unassigned: <b>{counts.unassigned}</b></span></div>
         {cloudEnabled && <section className="organizer-pin-panel" aria-label="Golfer PIN management">
-          <h3>Golfer sign-in PINs</h3>
-          <p>Assign or reset a private 6–12 digit PIN for each golfer. Only the organizer can change PINs; existing sessions are revoked when a PIN changes. Never use the organizer PIN here.</p>
+          <h3>Shared golfer PIN</h3>
+          <p>All golfers use the same four-digit PIN after selecting their name. Set it once here; new golfers automatically use it too. This is separate from your organizer PIN.</p>
+          <p className="organizer-pin-status-note">{sharedPinReady ? '● Shared PIN is configured' : '○ No shared PIN yet — set one to enable golfer sign-in'}</p>
           <form onSubmit={applyPin} className="organizer-pin-form">
-            <label className="organizer-field"><span>Golfer</span><select value={pinGolferId} onChange={(e) => setPinGolferId(e.target.value)} required><option value="">Choose golfer</option>{outing.players.slice().sort((a,b) => a.name.localeCompare(b.name)).map((p) => <option value={p.id} key={p.id}>{p.name}{pinStatuses.includes(p.id) ? ' · PIN set' : ' · No PIN'}</option>)}</select></label>
-            <label className="organizer-field"><span>New PIN (6–12 digits)</span><input type="password" inputMode="numeric" autoComplete="off" placeholder="Enter golfer PIN" value={newGolferPin} onChange={(e)=>setNewGolferPin(e.target.value)} minLength={6} maxLength={12} pattern="[0-9]{6,12}" required /></label>
-            <button type="submit" className="button button--forest" disabled={!pinGolferId || pinBusy}>{pinBusy ? 'Saving…' : 'Set / reset PIN'}</button>
+            <label className="organizer-field"><span>{sharedPinReady ? 'Replace shared PIN (4 digits)' : 'New shared PIN (4 digits)'}</span><input aria-label="Shared golfer PIN" type="password" inputMode="numeric" autoComplete="new-password" placeholder="Enter four digits" value={newGolferPin} onChange={(e)=>setNewGolferPin(e.target.value)} minLength={4} maxLength={4} pattern="[0-9]{4}" required /></label>
+            <button type="submit" className="button button--forest" disabled={pinBusy}>{pinBusy ? 'Saving…' : sharedPinReady ? 'Change shared PIN' : 'Set shared PIN'}</button>
           </form>
-          <p>{pinStatuses.length} of {outing.players.length} golfers have PINs assigned.</p>
+          <p>Changing this PIN signs out all golfer sessions. Since everyone shares it, anyone who knows the PIN can select another golfer’s name. Organizer access remains protected by its separate PIN.</p>
         </section>}
         {outing.players.length === 0 && <div className="organizer-empty"><strong>No golfers added yet.</strong><p>You mentioned 17 expected golfers. Add their names above whenever the roster is ready.</p></div>}
         {['black','white',''].map((side) => {
@@ -229,7 +227,7 @@ export default function OrganizerPage({ outing, setOuting, onSaveOuting, cloudEn
                 <label className="organizer-field"><span>Name</span><input aria-label={`Edit name for ${player.name}`} maxLength={70} value={editName} onChange={(e) => setEditName(e.target.value)} required /></label>
                 <label className="organizer-field"><span>Team</span><select aria-label={`Edit team for ${player.name}`} value={editTeam} onChange={(e) => setEditTeam(e.target.value)}><option value="">Unassigned</option>{outing.config.teams.map((team) => <option key={team.id} value={team.id}>{team.name}</option>)}</select></label>
                 <div className="organizer-row-actions"><button type="submit" className="button button--forest">Save changes</button><button type="button" className="button button--outline" onClick={() => setEditingId('')}>Cancel</button></div>
-              </form> : <><div className={`organizer-avatar organizer-avatar--${side || 'none'}`}>{player.name.slice(0,1).toUpperCase()}</div><span className="organizer-player-name">{player.name}{cloudEnabled && <small className="organizer-pin-status">{pinStatuses.includes(player.id) ? 'PIN ready' : 'Needs PIN'}</small>}</span><button type="button" className="organizer-icon-button" aria-label={`Edit ${player.name}`} onClick={() => beginEdit(player)}>Edit</button><button type="button" className="organizer-icon-button organizer-icon-button--danger" aria-label={`Remove ${player.name}`} onClick={() => deleteGolfer(player)}>Remove</button></>}
+              </form> : <><div className={`organizer-avatar organizer-avatar--${side || 'none'}`}>{player.name.slice(0,1).toUpperCase()}</div><span className="organizer-player-name">{player.name}</span><button type="button" className="organizer-icon-button" aria-label={`Edit ${player.name}`} onClick={() => beginEdit(player)}>Edit</button><button type="button" className="organizer-icon-button organizer-icon-button--danger" aria-label={`Remove ${player.name}`} onClick={() => deleteGolfer(player)}>Remove</button></>}
             </div>)}
           </div>;
         })}
@@ -266,7 +264,7 @@ export default function OrganizerPage({ outing, setOuting, onSaveOuting, cloudEn
           <div className="organizer-total-preview"><span>Preview total points</span><strong>{Number.isFinite(previewTotal) ? formatPoints(previewTotal) : '—'}</strong><span>First to {previewTotal > 0 && Number.isFinite(previewTotal) ? formatPoints(getOutingPointsToWin({ rounds: workingRounds.map((r) => ({ matchCount: Number(r.matchCount) || 0, pointsPerMatch: Number(r.pointsPerMatch) || 0 })) })) : '—'} wins</span></div>
           <button type="submit" className="button button--forest">Save format settings</button>
         </form>
-        <div className="organizer-backup"><h3>Backup & transfer</h3><p>Download the complete roster, matchups, hole scores, and results as JSON. {cloudEnabled ? 'Importing a backup replaces the shared outing for EVERYONE. Personal PINs are managed separately and are never exported.' : 'Importing replaces everything on this device. This is not live synchronization.'}</p><div className="organizer-row-actions"><button type="button" className="button button--outline" onClick={exportSetup}>Export setup</button><button type="button" className="button button--outline" onClick={() => fileInputRef.current?.click()}>Import setup</button><input ref={fileInputRef} type="file" accept=".json,application/json" className="organizer-hidden-file" aria-label="Import organizer setup file" onChange={importSetup} /></div><button type="button" className="organizer-reset" onClick={resetSetup}>{cloudEnabled ? 'Reset the shared outing' : 'Reset everything on this device'}</button></div>
+        <div className="organizer-backup"><h3>Backup & transfer</h3><p>Download the complete roster, matchups, hole scores, and results as JSON. {cloudEnabled ? 'Importing a backup replaces the shared outing for EVERYONE. The shared golfer PIN is stored separately and is never exported.' : 'Importing replaces everything on this device. This is not live synchronization.'}</p><div className="organizer-row-actions"><button type="button" className="button button--outline" onClick={exportSetup}>Export setup</button><button type="button" className="button button--outline" onClick={() => fileInputRef.current?.click()}>Import setup</button><input ref={fileInputRef} type="file" accept=".json,application/json" className="organizer-hidden-file" aria-label="Import organizer setup file" onChange={importSetup} /></div><button type="button" className="organizer-reset" onClick={resetSetup}>{cloudEnabled ? 'Reset the shared outing' : 'Reset everything on this device'}</button></div>
       </section>}
     </div>
   );

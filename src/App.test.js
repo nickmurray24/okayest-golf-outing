@@ -170,3 +170,47 @@ test('phone-oriented scorecard enters strokes and finalizes a match', () => {
     expect(screen.getByText(/1 \u2013 0/)).toBeInTheDocument();
   } finally { confirm.mockRestore(); }
 });
+
+
+test('projections include current leaders without awarding official points', () => {
+  const outing = preparedOuting();
+  let match = outing.matches[0];
+  // A half-entered hole should never count toward projections.
+  match = updateHoleStrokes(match, 0, 'black', 4);
+  outing.matches[0] = match;
+  expect(getStandings(outing).projected.points).toEqual({ black: 0, white: 0 });
+  match = updateHoleStrokes(match, 0, 'white', 5);
+  outing.matches[0] = match;
+  let standing = getStandings(outing);
+  expect(standing.points).toEqual({ black: 0, white: 0 });
+  expect(standing.projected.points).toEqual({ black: 1, white: 0 });
+  expect(standing.projected.includedMatches).toBe(1);
+  expect(standing.byRound.singles.projectedBlack).toBe(1);
+  // Tie it up on Hole 2 and the live projection becomes half a point each.
+  match = updateHoleStrokes(match, 1, 'black', 5);
+  match = updateHoleStrokes(match, 1, 'white', 4);
+  outing.matches[0] = match;
+  standing = getStandings(outing);
+  expect(standing.projected.points).toEqual({ black: 0.5, white: 0.5 });
+  expect(standing.points).toEqual({ black: 0, white: 0 });
+  // Adjusting the lead must recompute the projection from scratch.
+  match = updateHoleStrokes(match, 0, 'black', 6);
+  outing.matches[0] = match;
+  expect(getStandings(outing).projected.points).toEqual({ black: 0, white: 1 });
+});
+
+test('finalized matches contribute to both official and projected standings', () => {
+  const outing = preparedOuting();
+  let match = outing.matches[0];
+  for (let i = 0; i < 5; i += 1) {
+    match = updateHoleStrokes(match, i, 'black', 4);
+    match = updateHoleStrokes(match, i, 'white', 5);
+  }
+  outing.matches[0] = match;
+  expect(getStandings(outing).projected.points.black).toBe(1);
+  expect(getStandings(outing).points.black).toBe(0);
+  outing.matches[0] = finalizeMatch(match);
+  expect(getStandings(outing).points.black).toBe(1);
+  expect(getStandings(outing).projected.points.black).toBe(1);
+  expect(getStandings(outing).projected.uncountedMatches).toBe(15);
+});

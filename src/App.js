@@ -188,8 +188,23 @@ function StandingsPage({ outing }) {
   const finalized = outing.matches.filter((match) => getMatchProgress(match).finalized).slice().reverse();
   return (
     <div className="page inner-page">
-      <div className="page-intro"><p className="eyebrow">THE LEADERBOARD</p><h1>Standings<span className="title-period">.</span></h1><p>Official team points update when matches are finalized. Scores are local to this browser until Phase 4.</p></div>
+      <div className="page-intro"><p className="eyebrow">THE LEADERBOARD</p><h1>Standings<span className="title-period">.</span></h1><p>Official points are awarded when matches are finalized. Projected points also include the leaders of matches currently underway.</p></div>
       <Scoreboard outing={outing} compact />
+      <section className="standings-projection" aria-label="Projected standings">
+        <div className="standings-projection__heading">
+          <span className="standings-projection__eyebrow">LIVE OUTLOOK</span>
+          <h2>Projected standings</h2>
+          <p>If every match ended with its current leader, these would be the team totals. A match that's all square projects half the points to each team.</p>
+        </div>
+        <div className="standings-projection__teams">
+          {outing.config.teams.map((team) => <div className={`standings-projection__team standings-projection__team--${team.id}`} key={team.id}>
+            <span className={`team-mark team-mark--${team.id}`} aria-hidden="true"><span /></span>
+            <span>{team.name}</span>
+            <strong>{formatPoints(standings.projected.points[team.id])}</strong>
+          </div>)}
+        </div>
+        <p className="standings-projection__note">Includes {standings.projected.includedMatches} of {standings.totalMatches} matches with completed holes or final results. {standings.projected.uncountedMatches} not yet projected. <strong>Unofficial until finalized.</strong></p>
+      </section>
       {standings.winner && <div className="champion-banner"><Icon name="trophy" size={25} /><div><strong>{outing.config.teams.find((t) => t.id === standings.winner)?.name} wins the outing!</strong><span>First team to earn more than half of the available points.</span></div></div>}
       {standings.isTie && <div className="champion-banner"><Icon name="medal" size={25} /><div><strong>The outing ends all square.</strong><span>The teams split the available points. Set a tiebreaker if you need one.</span></div></div>}
       <section className="standings-section">
@@ -199,7 +214,7 @@ function StandingsPage({ outing }) {
             const result = standings.byRound[round.id];
             return <div className="breakdown-row" key={round.id}>
               <div className="breakdown-row__title"><span className="breakdown-row__number">{round.number}</span><div><strong>{round.name}</strong><span>{result.finalized}/{round.matchCount} matches final · Holes {round.holeStart}–{round.holeEnd}</span></div></div>
-              <div className="breakdown-row__result"><strong>{formatPoints(result.black)} – {formatPoints(result.white)}</strong><span>{formatPoints(result.black + result.white)} / {formatPoints(result.available)} pts awarded</span></div>
+              <div className="breakdown-row__result"><strong>{formatPoints(result.black)} – {formatPoints(result.white)}</strong><span>{formatPoints(result.black + result.white)} / {formatPoints(result.available)} pts official</span><span className="breakdown-row__projection">Projected: {formatPoints(result.projectedBlack)} – {formatPoints(result.projectedWhite)}</span></div>
             </div>;
           })}
         </div>
@@ -216,13 +231,12 @@ function StandingsPage({ outing }) {
   );
 }
 
-function TeamsPage({ outing, navigate }) {
+function TeamsPage({ outing }) {
   const counts = getRosterCounts(outing.players);
   return (
     <div className="page inner-page">
       <div className="page-intro"><p className="eyebrow">THE ROSTER</p><h1>Meet the teams<span className="title-period">.</span></h1><p>Lineups stay flexible as more golfers join. Set the roster and pairings in the organizer dashboard.</p></div>
       <div className="roster-summary"><span className="roster-summary__icon"><Icon name="users" size={23}/></span><div><span>CURRENT ROSTER</span><strong>{outing.players.length} golfers added · {counts.unassigned} unassigned</strong><p>{outing.players.length ? "Manage names, teams, and matchups below." : `${outing.config.estimatedGolfers} expected golfers · add their names when ready.`}</p></div></div>
-      <button type="button" className="organizer-entry" onClick={() => navigate('organizer')}>Open organizer dashboard →</button>
       <div className="team-grid">
         {outing.config.teams.map((team) => {
           const members = outing.players.filter((player) => player.teamId === team.id).sort((a, b) => a.name.localeCompare(b.name));
@@ -470,8 +484,8 @@ function App() {
       case 'teams': return <TeamsPage outing={outing} navigate={navigate} />;
       case 'rules': return <RulesPage outing={outing} />;
       case 'organizer': return <OrganizerPage outing={outing} setOuting={setOuting} onSaveOuting={saveOrganizer}
-        cloudEnabled={cloudEnabled} session={session} onSetPlayerPin={(playerId,pin) => cloud.setPlayerPin(sessionRef.current.token,playerId,pin)}
-        onReadPinStatuses={() => cloud.pinStatuses(sessionRef.current.token)} />;
+        cloudEnabled={cloudEnabled} session={session} onSetSharedPin={(pin) => cloud.setSharedPin(sessionRef.current.token,pin)}
+        onReadSharedPinStatus={() => cloud.sharedPinStatus(sessionRef.current.token)} />;
       case 'signin': return <SignInPage outing={outing} defaultRole={authRole} key={authRole} onSignIn={signIn} onCancel={() => navigate('home')} />;
       default: return <HomePage outing={outing} navigate={navigate} selectRound={selectRound} cloudEnabled={cloudEnabled} />;
     }

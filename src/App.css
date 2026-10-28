@@ -310,3 +310,17 @@ button { -webkit-tap-highlight-color: transparent; }
 .standings-result strong { color:#245239; font-size:14px; }
 /* Phase 4: mobile account and sync indicators */
 .header-tools{display:flex;align-items:center;gap:7px}.mobile-signin-button{border:1px solid #bccabf;background:#fff;color:#1a4934;border-radius:9px;padding:8px 10px;font-size:12px;font-weight:800;cursor:pointer;min-height:36px}.cloud-status{min-height:33px;padding:7px 20px;background:#eaf3e9;color:#205338;text-align:center;font-size:12px;font-weight:700}.cloud-status--error{background:#fff0e8;color:#9d3a24}.cloud-status__dot{display:inline-block;width:7px;height:7px;margin-right:7px;border-radius:50%;background:#278553;vertical-align:middle}.cloud-status--error .cloud-status__dot{background:#b8583e}.app-save-warning button{margin-left:8px}@media(max-width:390px){.mobile-header .brand__text{font-size:10px}.header-tools{gap:3px}.mobile-signin-button{padding:7px;font-size:11px}}
+
+/* Live projected leaderboard: distinct from official match points. */
+.standings-projection { margin-top:18px; padding:18px 15px; border-radius:17px; background:#eaf1e7; border:1px solid #d1e0ce; }
+.standings-projection__eyebrow { font-size:10px; font-weight:900; letter-spacing:.12em; color:#648369; }
+.standings-projection__heading h2 { margin:5px 0 5px; color:#183f2d; font-size:22px; }
+.standings-projection__heading p { color:#58715f; font-size:12px; line-height:1.55; margin:0; }
+.standings-projection__teams { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; margin:17px 0 12px; }
+.standings-projection__team { min-width:0; display:flex; flex-direction:column; align-items:center; gap:7px; border-radius:12px; background:#fff; border:1px solid #dce7da; padding:15px 8px; text-align:center; }
+.standings-projection__team>span:nth-child(2) { font-size:12px; color:#41664e; font-weight:850; overflow-wrap:anywhere; }
+.standings-projection__team strong { font-family:'Outfit',sans-serif; font-size:32px; color:#183f2d; line-height:1; }
+.standings-projection__note { margin:0; color:#5b755f; font-size:11px; line-height:1.55; }
+.standings-projection__note strong { color:#244d35; }
+.breakdown-row__result .breakdown-row__projection { color:#447755; font-weight:850; }
+@media(max-width:390px) { .standings-projection__team strong { font-size:28px; } }

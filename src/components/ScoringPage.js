@@ -27,7 +27,7 @@ function MatchListCard({ outing, match, round, onOpen, canEdit }) {
       </div>)}
     </div>
     <div className="scoring-match-tile__bottom">
-      <div><strong>{progress.label}</strong><span>{progress.decided ? (progress.winner ? `${teamFor(outing, progress.winner)} wins` : 'Match halved') : progress.started ? `${progress.through} of 9 holes completed in order` : `${formatPoints(round.pointsPerMatch)} points at stake`}</span></div>
+      <div><strong>{progress.label}</strong><span className={progress.leading ? `scoring-match-leader scoring-match-leader--${progress.leading}` : ''}>{progress.decided ? (progress.winner ? `${teamFor(outing, progress.winner)} wins` : 'Match halved') : progress.through > 0 ? (progress.leading ? `${teamFor(outing, progress.leading)} is leading` : 'All square — neither team leads') : progress.started ? 'Awaiting a completed hole' : `${formatPoints(round.pointsPerMatch)} points at stake`}</span></div>
       <button type="button" className="scoring-open" onClick={() => onOpen(match.id)} disabled={!ready}>{!canEdit ? 'View scores' : progress.finalized ? 'View result' : progress.started ? 'Continue' : 'Enter scores'} <span aria-hidden="true">→</span></button>
     </div>
     {!ready && <p className="scoring-match-tile__hint">Complete this matchup in Organizer before entering strokes.</p>}
@@ -111,7 +111,7 @@ export default function ScoringPage({ outing, onMatchUpdate, selectedRound, setS
       {cloudEnabled && !canEdit && <div className="scoring-permission"><strong>View-only scorecard</strong><p>{session ? 'Only golfers assigned to this match (or the organizer) can enter scores.' : 'Sign in to enter strokes for your matches.'}</p>{!session && <button type="button" className="button button--forest" onClick={onRequestLogin}>Golfer sign in</button>}</div>}
       <section className="scoring-live-card" aria-label="Current match standings">
         <div className="scoring-live-card__top"><span>MATCH STANDING</span><MatchBadge match={match} progress={progress} /></div>
-        <div className="scoring-live-card__lead"><strong>{progress.label}</strong><span>{leadSide ? teamFor(outing, leadSide) : progress.decided ? 'Match tied' : 'Neither team leading'}</span></div>
+        <div className="scoring-live-card__lead"><strong>{progress.label}</strong><span>{leadSide ? `${teamFor(outing, leadSide)} ${progress.decided ? 'wins' : 'is leading'}` : progress.decided ? 'Match halved' : 'All square — neither team is leading'}</span></div>
         <div className="scoring-live-card__foot"><span>{progress.blackWins} holes won · {teamFor(outing, 'black')}</span><span>{progress.whiteWins} holes won · {teamFor(outing, 'white')}</span></div>
       </section>
       <div className="scoring-player-key">
