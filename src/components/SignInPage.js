@@ -12,6 +12,7 @@ export default function SignInPage({ outing, onSignIn, onCancel, defaultRole = '
     event.preventDefault();
     if (role === 'player' && !playerId) return setError('Select your name first.');
     if (!pin) return setError('Enter your PIN.');
+    if (role === 'player' && !/^\d{4}$/.test(pin)) return setError('Golfer PIN must be exactly four digits.');
     setPending(true);
     setError('');
     try { await onSignIn(role, playerId, pin); }
@@ -28,11 +29,11 @@ export default function SignInPage({ outing, onSignIn, onCancel, defaultRole = '
       </div>
       <form onSubmit={submit}>
         {role === 'player' && <label className="signin-field"><span>Your name</span><select value={playerId} onChange={(e) => setPlayerId(e.target.value)} required><option value="">Select a golfer</option>{outing.players.slice().sort((a,b) => a.name.localeCompare(b.name)).map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select></label>}
-        <label className="signin-field"><span>{role === 'organizer' ? 'Organizer PIN' : 'Your golfer PIN'}</span><input type="password" autoComplete="off" inputMode={role === 'player' ? 'numeric' : 'text'} value={pin} onChange={(e) => setPin(e.target.value)} placeholder={role === 'player' ? '6-digit PIN' : 'Organizer PIN'} minLength={role === 'player' ? 6 : 8} maxLength={80} required /></label>
+        <label className="signin-field"><span>{role === 'organizer' ? 'Organizer PIN' : 'Shared golfer PIN'}</span><input type="password" autoComplete="off" inputMode={role === 'player' ? 'numeric' : 'text'} value={pin} onChange={(e) => setPin(e.target.value)} placeholder={role === 'player' ? '4-digit PIN' : 'Organizer PIN'} minLength={role === 'player' ? 4 : 8} maxLength={role === 'player' ? 4 : 80} pattern={role === 'player' ? '[0-9]{4}' : undefined} required /></label>
         {error && <div className="signin-error" role="alert">{error}</div>}
         <button type="submit" className="button button--forest signin-submit" disabled={pending}>{pending ? 'Checking PIN…' : role === 'organizer' ? 'Open organizer dashboard' : 'Sign in to score'}</button>
       </form>
-      <p className="signin-help">{role === 'player' ? 'Ask the organizer for your personal PIN. A golfer can edit only matches they are playing in.' : 'Only the outing organizer should know this PIN. Do not share it with other golfers.'}</p>
+      <p className="signin-help">{role === 'player' ? 'All golfers use the same four-digit PIN. Select your own name; scores can only be entered for matches assigned to the selected golfer. Because the PIN is shared, anyone who knows it can select another golfer.' : 'Only the outing organizer should know this PIN. Do not share it with other golfers.'}</p>
       <button type="button" className="signin-cancel" onClick={onCancel}>← Keep browsing scores</button>
     </section>
   </div>;

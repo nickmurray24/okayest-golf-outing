@@ -50,8 +50,8 @@ export const cloud = {
     p_token: token, p_match_id: matchId, p_expected_match_revision: revision,
     p_holes: match.holes, p_finalized: Boolean(match.finalized),
   }),
-  pinStatuses: (token) => rpc('okayest_pin_status', { p_token: token }),
-  setPlayerPin: (token, playerId, pin) => rpc('okayest_set_pin', { p_token: token, p_player_id: playerId, p_pin: pin }),
+  sharedPinStatus: (token) => rpc('okayest_shared_pin_status', { p_token: token }),
+  setSharedPin: (token, pin) => rpc('okayest_set_shared_pin', { p_token: token, p_pin: pin }),
 };
 
 /**
